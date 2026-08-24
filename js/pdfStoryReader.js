@@ -1,8 +1,9 @@
 (function(){
  let pdfjsPromise=null;
  function library(){
-  if(!pdfjsPromise)pdfjsPromise=import('./assets/vendor/pdfjs/pdf.min.mjs').then(pdfjs=>{
-   pdfjs.GlobalWorkerOptions.workerSrc=new URL('./assets/vendor/pdfjs/pdf.worker.min.mjs',document.baseURI).href;
+  const pdfAssetBase=new URL('./assets/vendor/pdfjs/',document.baseURI);
+  if(!pdfjsPromise)pdfjsPromise=import(new URL('pdf.min.mjs',pdfAssetBase).href).then(pdfjs=>{
+   pdfjs.GlobalWorkerOptions.workerSrc=new URL('pdf.worker.min.mjs',pdfAssetBase).href;
    return pdfjs;
   }).catch(error=>{pdfjsPromise=null;throw error});
   return pdfjsPromise;

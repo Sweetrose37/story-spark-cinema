@@ -10,10 +10,12 @@ for (const file of ['assets/vendor/pdfjs/pdf.min.mjs', 'assets/vendor/pdfjs/pdf.
   assert(fs.statSync(file).size > 1000, `PDF dependency is unexpectedly empty: ${file}`);
 }
 assert(html.includes('js/pdfStoryReader.js'), 'PDF reader is not loaded by the app');
-assert(reader.includes("import('./assets/vendor/pdfjs/pdf.min.mjs')"), 'GitHub Pages PDF library path escapes the repository subfolder');
-assert(reader.includes("new URL('./assets/vendor/pdfjs/pdf.worker.min.mjs',document.baseURI)"), 'GitHub Pages PDF worker path escapes the repository subfolder');
-assert(!reader.includes("import('../assets/vendor/pdfjs"), 'PDF library still points above the GitHub Pages app');
-assert.equal(new URL('./assets/vendor/pdfjs/pdf.worker.min.mjs','https://sweetrose37.github.io/story-spark-cinema/').pathname,'/story-spark-cinema/assets/vendor/pdfjs/pdf.worker.min.mjs','PDF worker does not stay inside the deployed app path');
+assert(reader.includes("pdfAssetBase=new URL('./assets/vendor/pdfjs/',document.baseURI)"), 'PDF assets do not share a GitHub Pages-safe base URL');
+assert(reader.includes("import(new URL('pdf.min.mjs',pdfAssetBase).href)"), 'PDF library does not use an explicit deployed URL');
+assert(reader.includes("new URL('pdf.worker.min.mjs',pdfAssetBase).href"), 'PDF worker does not use the same deployed URL');
+const deployedPdfBase=new URL('./assets/vendor/pdfjs/','https://sweetrose37.github.io/story-spark-cinema/');
+assert.equal(new URL('pdf.min.mjs',deployedPdfBase).pathname,'/story-spark-cinema/assets/vendor/pdfjs/pdf.min.mjs','PDF library does not stay inside the deployed app path');
+assert.equal(new URL('pdf.worker.min.mjs',deployedPdfBase).pathname,'/story-spark-cinema/assets/vendor/pdfjs/pdf.worker.min.mjs','PDF worker does not stay inside the deployed app path');
 assert(app.includes('.pdf,.png,.jpg,.jpeg,.webp,.txt,.md,.json'), 'PDF and image formats are missing from the story file picker');
 assert(app.includes("PdfStoryReader.extract(file"), 'PDF upload is not connected to text extraction');
 assert(app.includes("MovieStudio.importPages(result.pages"), 'Extracted PDF pages are not connected one-to-one to movie composition');
