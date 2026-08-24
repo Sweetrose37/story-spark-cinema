@@ -17,6 +17,8 @@ assert(app.includes("route('editor')"), 'PDF import does not open the timeline e
 assert(reader.includes("pdf.getPage(number)"), 'Reader does not process PDF pages');
 assert(reader.includes("page.getTextContent()"), 'Reader does not extract page text');
 assert(reader.includes('pageArtwork(page,pageBudget)'), 'PDF pages are not rendered as scene artwork');
+assert(reader.includes('page.render({canvas,canvasContext:context,viewport})'), 'Android PDF rendering is missing its explicit canvas target');
+assert(reader.includes('fallbackArtwork(text,number,pageBudget)'), 'A failed Android PDF render has no visible book-page recovery');
 assert(reader.includes("current.toDataURL('image/jpeg',quality)"), 'PDF artwork is not adaptively compressed for local storage');
 assert(reader.includes('importCount=Math.min(pageCount,24)'), 'PDF artwork count limit is missing');
 assert(reader.includes('pageBudget=Math.floor(2050000/importCount)'), 'Each PDF page does not receive a mobile storage budget');
@@ -32,6 +34,7 @@ assert(reader.includes('pages:pages.map'), 'Ordered PDF page records are not pre
 assert(reader.includes('page.text||`Illustrated page ${page.pageNumber}`'), 'A difficult PDF page can disappear instead of becoming a placeholder scene');
 assert(reader.includes('pages.push({pageNumber:number,text,image})'), 'PDF page text and artwork can drift out of alignment');
 assert(app.includes("{type:'pdf',title:result.fileName}"), 'PDF source data is not assigned to page scenes');
+assert(fs.readFileSync('js/movieComposer.js','utf8').includes('importPagesWithCover'), 'Imported books do not open on their actual cover artwork');
 assert(fs.readFileSync('js/timelineEditor.js','utf8').includes('preview-pdf-art'), 'PDF artwork is missing from the timeline preview');
 assert(fs.readFileSync('js/moviePlayer.js','utf8').includes('movie-pdf-art'), 'PDF artwork is missing from movie playback');
 assert(fs.readFileSync('js/timelineEditor.js','utf8').includes("art?'':`<div class=\"preview-stars\""), 'Editor decorations are not hidden over PDF artwork');

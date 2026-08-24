@@ -15,5 +15,6 @@
  function introFor(genre){return {'Sci-Fi':'Sci-Fi',Mystery:'Mystery',Comedy:'Comedy',Adventure:'Adventure',Fantasy:'Magical Spark',Magical:'Magical Spark'}[genre]||'Classic Cinema'}
  function itemIcon(i){if(/key/i.test(i))return'🔑';if(/map|note/i.test(i))return'🗺️';if(/crystal|star/i.test(i))return'💎';if(/chip/i.test(i))return'🔷';if(/ticket/i.test(i))return'🎟️';if(/feather/i.test(i))return'🪶';return'◆'}
  function quickPolish(comp){const transitions=['Fade','Dissolve','Star Wipe','Slide'],cameras=['slow zoom in','gentle drift','pan right','dramatic push in'];comp.scenes.forEach((s,i)=>{s.duration=s.sceneType==='title'?3:s.sceneType==='credits'?8:s.sceneType==='climax'?11:7;s.transitionIn=transitions[i%transitions.length];s.cameraMotion=cameras[i%cameras.length];s.visualEffects=[i%2?'soft glow':'sparkles']});comp.status='Ready to Play';comp.updatedDate=new Date().toISOString();return validate(comp)}
- window.MovieStudio={build,importText,importPages,validate,totalDuration,clampDuration,quickPolish,TRANSITIONS,CAMERAS,MUSIC};
+ function importPagesWithCover(...args){const comp=importPages(...args),cover=comp.scenes.find(scene=>scene.background?.image)?.background.image;if(cover)comp.scenes[0].background.image=cover;return comp}
+ window.MovieStudio={build,importText,importPages:importPagesWithCover,validate,totalDuration,clampDuration,quickPolish,TRANSITIONS,CAMERAS,MUSIC};
 })();

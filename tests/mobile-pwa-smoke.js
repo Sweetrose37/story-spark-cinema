@@ -17,7 +17,7 @@ assert.equal(manifest.display,'standalone','Manifest is not configured for stand
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v11'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v12'"), 'Current versioned offline cache is missing');
 assert(worker.includes("request.mode==='navigate'"), 'Offline navigation fallback is missing');
 assert(mobile.includes("navigator.serviceWorker.register('./sw.js')"), 'Service worker registration is missing');
 assert(mobile.includes("'controllerchange'"), 'Installed phones do not refresh after an app-shell update');
@@ -39,14 +39,15 @@ assert(styles.includes('.mobile-menu-scrim'), 'Mobile drawer backdrop is missing
 assert(styles.includes('aspect-ratio:4/3!important'), 'Android movie screen sizing is not repaired');
 assert(styles.includes('.mobile-keyboard-open'), 'Android keyboard overlap handling is missing');
 assert(mobile.includes('window.visualViewport'), 'Android keyboard detection is missing');
-assert(app.includes("function bindMobileTap(element,handler){if(!element)return;let suppressClick=false,releaseTimer=null"), 'Player controls do not use a one-touch Android activation latch');
-assert(app.includes("element.onpointerdown=direct"), 'Android player controls do not start on pointer-down');
+assert(app.includes("function bindMobileTap(element,handler){if(!element)return;let active=false,suppressClick=false,releaseTimer=null"), 'Player controls do not use a one-touch Android activation latch');
+assert(app.includes("element.onpointerdown=begin"), 'Android player controls do not track touch-down');
+assert(app.includes("element.onpointerup=finish"), 'Android player controls do not activate on quick tap release');
 assert(app.includes("element.ontouchstart="), 'Older Android touch-start fallback is missing');
+assert(app.includes("element.ontouchend=finish"), 'Older Android touch-end activation is missing');
 assert(app.includes("if(suppressClick){suppressClick=false;clearTimeout(releaseTimer);return}"), 'Android compatibility clicks can double-trigger controls');
 assert(!app.includes("Date.now()-directAt"), 'Android click suppression can expire while a touch is still finishing');
 assert(app.includes('bindIntentionalTap(element,handler)'), 'Scroll-safe mobile activation is missing');
 assert(app.includes('element.onpointercancel'), 'Cancelled Android touches are not ignored');
-assert(!app.includes('element.onpointerup=event=>'), 'Player still fires actions directly on Android pointer-up');
 assert(app.includes('hamburger-icon'), 'Mobile hamburger control is missing');
 assert(styles.includes('.mobile-screen-play'), 'Large mobile movie play control is missing');
 assert(player.includes('class="mobile-screen-play"'), 'Mobile movie play button is not rendered');

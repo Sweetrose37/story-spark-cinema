@@ -44,6 +44,7 @@ const importedPages = Studio.importPages([
 const pageScenes = importedPages.scenes.filter(scene=>scene.sceneType==='story'||scene.sceneType==='ending');
 assert.equal(pageScenes.length,3,'Each imported page must create exactly one story scene');
 assert.deepEqual(pageScenes.map(scene=>scene.background.image),['data:image/jpeg;base64,one','data:image/jpeg;base64,two','data:image/jpeg;base64,three']);
+assert.equal(importedPages.scenes[0].background.image,'data:image/jpeg;base64,one','Imported book does not open on its actual cover artwork');
 assert.deepEqual(pageScenes.map(scene=>scene.title),['Cover','The Journey','Home']);
 assert.equal(pageScenes.at(-1).sceneType,'ending');
 console.log(`Composition smoke passed: ${movie.scenes.length} built scenes, ${imported.scenes.length} text scenes, and ${pageScenes.length} ordered page scenes.`);
