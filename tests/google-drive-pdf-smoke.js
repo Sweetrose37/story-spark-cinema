@@ -25,7 +25,8 @@ assert(app.includes("['https://drive.usercontent.google.com/download','https://d
 assert(app.includes("fetch(downloadUrl,{mode:'cors',credentials:'omit',redirect:'follow',cache:'no-store'})"), 'Drive PDF download is not mobile-safe');
 assert(app.includes('for(const [index,downloadUrl] of googleDriveDownloadUrls(reference).entries())'), 'Drive download does not retry its alternate route');
 assert(app.includes("signature.startsWith('%PDF')"), 'Non-PDF Drive responses are not rejected');
-assert(app.includes("blob.size>30*1024*1024"), 'Drive PDFs do not use the upload size safety limit');
+assert(app.includes("maxPdfBytes=75*1024*1024"), 'Expanded 75 MB Drive PDF limit is missing');
+assert(app.includes("blob.size>maxPdfBytes"), 'Drive PDFs do not enforce the expanded upload safety limit');
 assert(app.includes("PdfStoryReader.extract(file"), 'Drive PDFs do not use the locked PDF reader');
 assert(app.includes("MovieStudio.importPages(result.pages"), 'Drive PDF pages are not turned into movie scenes');
 assert(app.includes("source:'google-drive'"), 'Drive imports are not identified in movie source data');
@@ -34,8 +35,8 @@ assert(app.includes("'storyspark-import-finished'"), 'Deferred app refresh is no
 assert(styles.includes('@media(max-width:520px){.drive-link-row{grid-template-columns:1fr}'), 'Drive link controls do not stack on narrow phones');
 assert(styles.includes('.drive-native-card>.btn{display:block;width:100%'), 'Native Drive picker is not phone friendly');
 assert(html.includes('css/styles.css?v=5.6'), 'Drive link mobile styling is not cache-busted');
-assert(html.includes('js/app-v2.js?v=5.12'), 'Drive link controller is not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v22'"), 'Installed phones will not receive Drive link imports');
+assert(html.includes('js/app-v2.js?v=5.13'), 'Drive link controller is not cache-busted');
+assert(worker.includes("const CACHE='story-spark-mobile-v23'"), 'Installed phones will not receive Drive link imports');
 
 const parserStart=app.indexOf('function googleDrivePdfReference(value)');
 const parserEnd=app.indexOf('\nfunction googleDriveDownloadUrl',parserStart);

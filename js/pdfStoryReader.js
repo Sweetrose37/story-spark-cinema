@@ -1,5 +1,6 @@
 (function(){
  let pdfjsPromise=null;
+ const MAX_PDF_BYTES=75*1024*1024;
  function library(){
   const pdfAssetBase=new URL('./assets/vendor/pdfjs/',document.baseURI);
   if(!pdfjsPromise)pdfjsPromise=import(new URL('pdf.min.mjs',pdfAssetBase).href).then(pdfjs=>{
@@ -47,7 +48,7 @@
  }
  async function extract(file,onProgress){
   if(!file||(!/\.pdf$/i.test(file.name)&&file.type!=='application/pdf'))throw new Error('Choose a PDF story file.');
-  if(file.size>30*1024*1024)throw new Error('That PDF is too large. Choose one under 30 MB.');
+  if(file.size>MAX_PDF_BYTES)throw new Error('That PDF is too large. Choose one under 75 MB.');
   const pdfjs=await library(),data=new Uint8Array(await file.arrayBuffer());
   const task=pdfjs.getDocument({data,isEvalSupported:false});
   let pdf=null;

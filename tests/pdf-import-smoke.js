@@ -33,7 +33,8 @@ assert(reader.includes('pdfjsPromise=null;throw error'), 'A failed PDF library l
 assert(reader.includes('artwork recovery:'), 'One difficult PDF image can still cancel the whole upload');
 assert(reader.includes('text recovery:'), 'One difficult PDF text layer can still cancel the whole upload');
 assert(app.includes("input.value=''"), 'Selecting the same PDF again will not trigger another upload');
-assert(reader.includes('30*1024*1024'), 'PDF size safety limit is missing');
+assert(reader.includes('MAX_PDF_BYTES=75*1024*1024'), 'Expanded 75 MB PDF size safety limit is missing');
+assert(reader.includes('file.size>MAX_PDF_BYTES'), 'PDF reader does not enforce its size safety limit');
 assert(reader.includes('pageCount>150'), 'PDF page safety limit is missing');
 assert(reader.includes("typeof pdf.destroy==='function'"), 'PDF cleanup is not guarded for browser compatibility');
 assert(reader.includes('pages:pages.map'), 'Ordered PDF page records are not preserved before cleanup');
