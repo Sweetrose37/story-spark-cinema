@@ -1,15 +1,16 @@
-const CACHE='story-spark-mobile-v12';
+const CACHE='story-spark-mobile-v13';
 const CORE=[
   './',
   './index.html',
   './manifest.webmanifest',
-  './css/styles.css?v=5.2',
+  './css/styles.css?v=5.3',
   './assets/story-spark-app-icon.svg',
   './assets/star-code-hero.png',
   './js/idb.js',
   './js/movieComposer.js?v=5.2',
   './js/timelineEditor.js?v=5.0',
   './js/moviePlayer.js?v=5.2',
+  './js/mobileMoviePlayer.js?v=1.0',
   './js/movieExporter.js?v=5.0',
   './js/pdfStoryReader.js?v=4.4.0',
   './js/mobileApp.js?v=1.4',
