@@ -1,19 +1,19 @@
-const CACHE='story-spark-mobile-v4';
+const CACHE='story-spark-mobile-v5';
 const CORE=[
   './',
   './index.html',
   './manifest.webmanifest',
-  './css/styles.css?v=4.9',
+  './css/styles.css?v=5.0',
   './assets/story-spark-app-icon.svg',
   './assets/star-code-hero.png',
   './js/idb.js',
-  './js/movieComposer.js?v=4.9',
-  './js/timelineEditor.js?v=4.9',
-  './js/moviePlayer.js?v=4.9',
-  './js/movieExporter.js?v=4.9',
+  './js/movieComposer.js?v=5.0',
+  './js/timelineEditor.js?v=5.0',
+  './js/moviePlayer.js?v=5.0',
+  './js/movieExporter.js?v=5.0',
   './js/pdfStoryReader.js?v=4.2.3',
-  './js/mobileApp.js?v=1.2',
-  './js/app-v2.js?v=4.9'
+  './js/mobileApp.js?v=1.3',
+  './js/app-v2.js?v=5.0'
 ];
 
 self.addEventListener('install',event=>{
