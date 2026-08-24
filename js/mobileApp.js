@@ -28,7 +28,7 @@
 
  if('serviceWorker'in navigator&&/^https?:$/.test(location.protocol)){
   let refreshing=false;
-  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing){refreshing=true;location.reload()}});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshing)return;refreshing=true;const refresh=()=>location.reload();if(document.body?.classList.contains('file-import-active'))window.addEventListener('storyspark-import-finished',refresh,{once:true});else refresh()});
   window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(error=>console.warn('Offline app setup:',error)));
  }
 

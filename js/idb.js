@@ -17,5 +17,6 @@
  async function get(id){const db=await open();return new Promise((resolve,reject)=>{const req=db.transaction(STORE).objectStore(STORE).get(id);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)})}
  async function url(id){const record=await get(id);return record?URL.createObjectURL(record.blob):null}
  async function remove(id){const db=await open();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
- window.AudioStore={save,get,url,remove,supported:'indexedDB' in window};
+ async function clear(){const db=await open();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).clear();tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+ window.AudioStore={save,get,url,remove,clear,supported:'indexedDB' in window};
 })();

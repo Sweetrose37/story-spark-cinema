@@ -7,7 +7,7 @@ Story Spark Cinema is a kid-friendly, browser-based story and movie studio. Chil
 - Five age-aware experiences from toddler through teen
 - Branching story engine with multiple endings and rewards
 - Character creator with optional local photo upload
-- PDF, text, Markdown, and Story Spark project imports
+- Page-by-page PDF and ordered PNG/JPG/WebP story imports, plus text, Markdown, and Story Spark projects
 - Timeline editor, narration, music, effects, and movie theater
 - Local movie saving, duplication, deletion, and 720p export
 - Installable mobile web app for Android and iPhone

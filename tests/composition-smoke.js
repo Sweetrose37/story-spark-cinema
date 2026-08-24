@@ -36,4 +36,14 @@ const imported = Studio.importText('The Secret Kite\n\nMia finds a glowing kite.
 assert.equal(Studio.validate(imported), imported);
 assert.equal(imported.title, 'THE SECRET KITE');
 assert(imported.scenes.length >= 5);
-console.log(`Composition smoke passed: ${movie.scenes.length} built scenes, ${imported.scenes.length} imported scenes.`);
+const importedPages = Studio.importPages([
+  {pageNumber:1,name:'Cover',text:'A bright door appeared.',image:'data:image/jpeg;base64,one'},
+  {pageNumber:2,name:'The Journey',text:'Mia stepped through.',image:'data:image/jpeg;base64,two'},
+  {pageNumber:3,name:'Home',text:'She brought the light home.',image:'data:image/jpeg;base64,three'}
+], '9-12', {type:'images',title:'Mia Pages.png'});
+const pageScenes = importedPages.scenes.filter(scene=>scene.sceneType==='story'||scene.sceneType==='ending');
+assert.equal(pageScenes.length,3,'Each imported page must create exactly one story scene');
+assert.deepEqual(pageScenes.map(scene=>scene.background.image),['data:image/jpeg;base64,one','data:image/jpeg;base64,two','data:image/jpeg;base64,three']);
+assert.deepEqual(pageScenes.map(scene=>scene.title),['Cover','The Journey','Home']);
+assert.equal(pageScenes.at(-1).sceneType,'ending');
+console.log(`Composition smoke passed: ${movie.scenes.length} built scenes, ${imported.scenes.length} text scenes, and ${pageScenes.length} ordered page scenes.`);

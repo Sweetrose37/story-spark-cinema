@@ -12,15 +12,17 @@ const manifest = JSON.parse(fs.readFileSync('manifest.webmanifest','utf8'));
 assert(html.includes('viewport-fit=cover'), 'iPhone safe-area viewport support is missing');
 assert(html.includes('rel="manifest"'), 'Web app manifest is not linked');
 assert(html.includes('apple-mobile-web-app-capable'), 'iPhone standalone support is missing');
-assert(html.includes('js/mobileApp.js?v=1.3'), 'Current mobile app controller is not loaded');
+assert(html.includes('js/mobileApp.js?v=1.4'), 'Current mobile app controller is not loaded');
 assert.equal(manifest.display,'standalone','Manifest is not configured for standalone launch');
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v6'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v7'"), 'Current versioned offline cache is missing');
 assert(worker.includes("request.mode==='navigate'"), 'Offline navigation fallback is missing');
 assert(mobile.includes("navigator.serviceWorker.register('./sw.js')"), 'Service worker registration is missing');
 assert(mobile.includes("'controllerchange'"), 'Installed phones do not refresh after an app-shell update');
+assert(mobile.includes("classList.contains('file-import-active')"), 'A service-worker refresh can interrupt an active phone import');
+assert(mobile.includes("'storyspark-import-finished'"), 'Deferred mobile refresh is not resumed after importing');
 assert(mobile.includes("'beforeinstallprompt'"), 'Android install prompt support is missing');
 assert(mobile.includes('window.navigator.standalone'), 'iPhone installed-mode detection is missing');
 assert(app.includes('installStorySparkApp()'), 'Install action is not connected to the app UI');
@@ -51,8 +53,10 @@ assert(!/function render\(\).*save\(\)}/.test(app), 'Rendering still saves state
 assert(/function autosave\(\).*if\(i>=0\)/.test(app), 'Draft autosave still creates unwanted movie-library entries');
 assert(app.includes("story:{mission:'',problem:'',sidekick:'',item:'',twist:'',ending:''}"), 'New stories still arrive with choices already selected');
 assert(app.includes("if(!p.title)return toast('Choose a movie title"), 'The app does not require an intentional title choice');
+assert(app.includes("restored.route='home'"), 'A fresh mobile launch can reopen a stale player or editor route');
+assert(app.includes("function route(r){state.route=r;persistState(false)"), 'Navigation state is not persisted intentionally');
 
-for(const asset of ['./index.html','./manifest.webmanifest','./assets/story-spark-app-icon.svg','./js/mobileApp.js?v=1.3']){
+for(const asset of ['./index.html','./manifest.webmanifest','./assets/story-spark-app-icon.svg','./js/mobileApp.js?v=1.4']){
   assert(worker.includes(`'${asset}'`), `Offline cache is missing ${asset}`);
 }
 
