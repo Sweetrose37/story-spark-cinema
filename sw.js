@@ -1,4 +1,4 @@
-const CACHE='story-spark-mobile-v5';
+const CACHE='story-spark-mobile-v6';
 const CORE=[
   './',
   './index.html',
@@ -11,7 +11,7 @@ const CORE=[
   './js/timelineEditor.js?v=5.0',
   './js/moviePlayer.js?v=5.0',
   './js/movieExporter.js?v=5.0',
-  './js/pdfStoryReader.js?v=4.2.3',
+  './js/pdfStoryReader.js?v=4.2.4',
   './js/mobileApp.js?v=1.3',
   './js/app-v2.js?v=5.0'
 ];

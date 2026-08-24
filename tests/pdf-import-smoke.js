@@ -20,6 +20,10 @@ assert(reader.includes('pageArtwork(page)'), 'PDF pages are not rendered as scen
 assert(reader.includes("canvas.toDataURL('image/jpeg',.62)"), 'PDF artwork is not compressed for local storage');
 assert(reader.includes('pageImages.length<8'), 'PDF artwork count limit is missing');
 assert(reader.includes('artworkSize<1500000'), 'PDF artwork storage limit is missing');
+assert(reader.includes('pdfjsPromise=null;throw error'), 'A failed PDF library load cannot be retried');
+assert(reader.includes('artwork recovery:'), 'One difficult PDF image can still cancel the whole upload');
+assert(reader.includes('text recovery:'), 'One difficult PDF text layer can still cancel the whole upload');
+assert(app.includes("input.value=''"), 'Selecting the same PDF again will not trigger another upload');
 assert(reader.includes('30*1024*1024'), 'PDF size safety limit is missing');
 assert(reader.includes('pageCount>150'), 'PDF page safety limit is missing');
 assert(reader.includes("typeof pdf.destroy==='function'"), 'PDF cleanup is not guarded for browser compatibility');

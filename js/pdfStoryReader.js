@@ -4,7 +4,7 @@
   if(!pdfjsPromise)pdfjsPromise=import('../assets/vendor/pdfjs/pdf.min.mjs').then(pdfjs=>{
    pdfjs.GlobalWorkerOptions.workerSrc=new URL('../assets/vendor/pdfjs/pdf.worker.min.mjs',document.baseURI).href;
    return pdfjs;
-  });
+  }).catch(error=>{pdfjsPromise=null;throw error});
   return pdfjsPromise;
  }
  function joinItems(items){
@@ -20,7 +20,7 @@
   return text.replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
  }
  async function pageArtwork(page){
-  const base=page.getViewport({scale:1}),scale=Math.min(1.25,720/base.width);
+  const base=page.getViewport({scale:1}),scale=Math.min(1,640/base.width,900/base.height);
   const viewport=page.getViewport({scale}),canvas=document.createElement('canvas');
   canvas.width=Math.max(1,Math.floor(viewport.width));canvas.height=Math.max(1,Math.floor(viewport.height));
   const context=canvas.getContext('2d',{alpha:false});
@@ -41,12 +41,11 @@
    const pages=[],pageImages=[];let artworkSize=0;
    for(let number=1;number<=pageCount;number+=1){
     onProgress?.(number,pageCount);
-    const page=await pdf.getPage(number),content=await page.getTextContent();
-    const text=joinItems(content.items);
+    const page=await pdf.getPage(number);let text='';
+    try{const content=await page.getTextContent();text=joinItems(content.items)}catch(error){console.warn(`PDF page ${number} text recovery:`,error)}
     if(text)pages.push(text);
     if(pageImages.length<8&&artworkSize<1500000){
-     const image=await pageArtwork(page);
-     if(artworkSize+image.length<=1500000){pageImages.push(image);artworkSize+=image.length}
+     try{const image=await pageArtwork(page);if(artworkSize+image.length<=1500000){pageImages.push(image);artworkSize+=image.length}}catch(error){console.warn(`PDF page ${number} artwork recovery:`,error)}
     }
     if(typeof page.cleanup==='function')page.cleanup();
    }
