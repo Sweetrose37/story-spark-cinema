@@ -1,0 +1,22 @@
+{
+  "id": "./",
+  "name": "Story Spark Cinema",
+  "short_name": "Story Spark",
+  "description": "Create stories, turn them into movies, and premiere your imagination.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#050817",
+  "theme_color": "#050817",
+  "orientation": "any",
+  "categories": ["education", "entertainment", "kids"],
+  "icons": [
+    {
+      "src": "assets/story-spark-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
