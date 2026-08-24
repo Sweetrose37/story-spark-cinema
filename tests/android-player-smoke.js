@@ -14,8 +14,12 @@ assert(!mobileTap.includes('moved'), 'Android player taps are still canceled by 
 assert(mobileTap.includes('element.onpointerdown=direct'), 'Android playback does not begin directly on touch pointer-down');
 assert(mobileTap.includes('element.ontouchstart='), 'Android playback has no legacy touch-start fallback');
 assert(mobileTap.includes('event.preventDefault()'), 'Android compatibility click can fire after direct touch activation');
+assert(mobileTap.includes('let suppressClick=false,releaseTimer=null'), 'Android player controls have no one-touch activation latch');
+assert(mobileTap.includes('if(suppressClick){suppressClick=false;clearTimeout(releaseTimer);return}'), 'Android compatibility click is not consumed after touch playback starts');
+assert(!mobileTap.includes('Date.now'), 'Android click suppression still expires before a slow touch finishes');
 
-const touchSandbox={window:{PointerEvent:function PointerEvent(){}},Date};
+let releaseLatch=null;
+const touchSandbox={window:{PointerEvent:function PointerEvent(){}},setTimeout(fn){releaseLatch=fn;return 1},clearTimeout(){}};
 vm.createContext(touchSandbox);vm.runInContext(`${mobileTap};this.bindMobileTap=bindMobileTap`,touchSandbox);
 let touchCount=0,prevented=false;const touchElement={disabled:false};
 touchSandbox.bindMobileTap(touchElement,()=>touchCount+=1);
@@ -36,8 +40,8 @@ assert(player.includes("document.querySelector('#movieScreen')?.classList.remove
 assert(styles.includes('.scene-running .movie-pdf-art{animation:artKenBurns'), 'PNG and PDF artwork has no visible playback motion');
 assert(html.includes('js/moviePlayer.js?v=5.2'), 'Repaired player script is not cache-busted');
 assert(html.includes('css/styles.css?v=5.2'), 'Repaired player animation styles are not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v10'"), 'Installed Android app will not receive the repaired player');
-assert(html.includes('js/app-v2.js?v=5.3'), 'Direct-touch player controller is not cache-busted');
+assert(worker.includes("const CACHE='story-spark-mobile-v11'"), 'Installed Android app will not receive the repaired player');
+assert(html.includes('js/app-v2.js?v=5.4'), 'One-touch player controller is not cache-busted');
 
 for(const music of ['adventure','calm','comedy','emotional','epic','happy','magical','mystery','space','spooky-cute','victory']){
   assert(worker.includes(`'./assets/audio/music/${music}.wav'`), `${music} music is unavailable offline`);
