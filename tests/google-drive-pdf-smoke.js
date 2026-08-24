@@ -9,6 +9,10 @@ const worker = fs.readFileSync('sw.js','utf8');
 
 assert(app.includes('id="drivePdfUrl"'), 'Google Drive link field is missing');
 assert(app.includes('id="drivePdfImport"'), 'Google Drive import button is missing');
+assert(app.includes('for="storyFileInput">☁️ CHOOSE FROM GOOGLE DRIVE'), 'Native Google Drive file-picker button is missing');
+assert(app.includes('Choose <b>Drive</b> and open your book folder'), 'Android Drive folder instructions are missing');
+assert(app.includes('select up to 24 page images together'), 'Drive folder page selection instructions are missing');
+assert(app.includes('Drive folder links cannot be pasted here'), 'Direct-link and folder-picker paths are not clearly separated');
 assert(app.includes('function googleDrivePdfReference(value)'), 'Google Drive file reference parser is missing');
 assert(app.includes("url.pathname.match(/\\/d\\/([^/]+)/i)"), 'Standard and mobile Drive file links are not recognized');
 assert(app.includes("url.searchParams.get('id')"), 'Drive download-style links are not recognized');
@@ -27,11 +31,11 @@ assert(app.includes("MovieStudio.importPages(result.pages"), 'Drive PDF pages ar
 assert(app.includes("source:'google-drive'"), 'Drive imports are not identified in movie source data');
 assert(app.includes("classList.add('file-import-active')"), 'App updates can interrupt an active Drive import');
 assert(app.includes("'storyspark-import-finished'"), 'Deferred app refresh is not resumed after a Drive import');
-assert(app.includes('Anyone with the link'), 'Drive sharing instructions are missing');
 assert(styles.includes('@media(max-width:520px){.drive-link-row{grid-template-columns:1fr}'), 'Drive link controls do not stack on narrow phones');
-assert(html.includes('css/styles.css?v=5.5'), 'Drive link mobile styling is not cache-busted');
-assert(html.includes('js/app-v2.js?v=5.11'), 'Drive link controller is not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v21'"), 'Installed phones will not receive Drive link imports');
+assert(styles.includes('.drive-native-card>.btn{display:block;width:100%'), 'Native Drive picker is not phone friendly');
+assert(html.includes('css/styles.css?v=5.6'), 'Drive link mobile styling is not cache-busted');
+assert(html.includes('js/app-v2.js?v=5.12'), 'Drive link controller is not cache-busted');
+assert(worker.includes("const CACHE='story-spark-mobile-v22'"), 'Installed phones will not receive Drive link imports');
 
 const parserStart=app.indexOf('function googleDrivePdfReference(value)');
 const parserEnd=app.indexOf('\nfunction googleDriveDownloadUrl',parserStart);

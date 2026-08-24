@@ -43,9 +43,9 @@ assert(!player.includes("requestAnimationFrame(()=>screen.classList.add('scene-r
 assert(player.includes("document.querySelector('#movieScreen')?.classList.remove('scene-running')"), 'Pause leaves visual motion running');
 assert(styles.includes('.scene-running .movie-pdf-art{animation:artKenBurns'), 'PNG and PDF artwork has no visible playback motion');
 assert(html.includes('js/moviePlayer.js?v=5.2'), 'Repaired player script is not cache-busted');
-assert(html.includes('css/styles.css?v=5.5'), 'Repaired player animation styles are not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v21'"), 'Installed Android app will not receive the repaired player');
-assert(html.includes('js/app-v2.js?v=5.11'), 'Quick-tap player controller is not cache-busted');
+assert(html.includes('css/styles.css?v=5.6'), 'Repaired player animation styles are not cache-busted');
+assert(worker.includes("const CACHE='story-spark-mobile-v22'"), 'Installed Android app will not receive the repaired player');
+assert(html.includes('js/app-v2.js?v=5.12'), 'Quick-tap player controller is not cache-busted');
 
 for(const music of ['adventure','calm','comedy','emotional','epic','happy','magical','mystery','space','spooky-cute','victory']){
   assert(worker.includes(`'./assets/audio/music/${music}.wav'`), `${music} music is unavailable offline`);

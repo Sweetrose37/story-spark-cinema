@@ -8,9 +8,9 @@ const styles=fs.readFileSync('css/styles.css','utf8');
 const worker=fs.readFileSync('sw.js','utf8');
 
 assert(html.indexOf('js/moviePlayer.js?v=5.2')<html.indexOf('js/mobileMoviePlayer.js?v=1.0'),'Dedicated mobile player must wrap the loaded desktop player');
-assert(html.includes('css/styles.css?v=5.5'),'Dedicated mobile player styles are not cache-busted');
+assert(html.includes('css/styles.css?v=5.6'),'Dedicated mobile player styles are not cache-busted');
 assert(worker.includes("'./js/mobileMoviePlayer.js?v=1.0'"),'Dedicated mobile player is unavailable offline');
-assert(worker.includes("const CACHE='story-spark-mobile-v21'"),'Installed phones will not receive the dedicated player');
+assert(worker.includes("const CACHE='story-spark-mobile-v22'"),'Installed phones will not receive the dedicated player');
 assert(mobile.includes("matchMedia('(max-width:760px), (pointer:coarse)').matches"),'Phone and coarse-pointer detection is missing');
 assert(mobile.includes('window.DesktopCinemaPlayer=desktop;window.MobileCinemaPlayer=mobile'),'Desktop and mobile player engines are not independently exposed');
 assert(mobile.includes('button.onclick=event=>'),'Mobile controls do not use native click activation');
