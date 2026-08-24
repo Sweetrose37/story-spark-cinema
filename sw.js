@@ -1,19 +1,44 @@
-const CACHE='story-spark-mobile-v7';
+const CACHE='story-spark-mobile-v9';
 const CORE=[
   './',
   './index.html',
   './manifest.webmanifest',
-  './css/styles.css?v=5.1',
+  './css/styles.css?v=5.2',
   './assets/story-spark-app-icon.svg',
   './assets/star-code-hero.png',
   './js/idb.js',
   './js/movieComposer.js?v=5.1',
   './js/timelineEditor.js?v=5.0',
-  './js/moviePlayer.js?v=5.0',
+  './js/moviePlayer.js?v=5.2',
   './js/movieExporter.js?v=5.0',
   './js/pdfStoryReader.js?v=4.3.0',
   './js/mobileApp.js?v=1.4',
-  './js/app-v2.js?v=5.1'
+  './js/app-v2.js?v=5.2',
+  './assets/audio/music/adventure.wav',
+  './assets/audio/music/calm.wav',
+  './assets/audio/music/comedy.wav',
+  './assets/audio/music/emotional.wav',
+  './assets/audio/music/epic.wav',
+  './assets/audio/music/happy.wav',
+  './assets/audio/music/magical.wav',
+  './assets/audio/music/mystery.wav',
+  './assets/audio/music/space.wav',
+  './assets/audio/music/spooky-cute.wav',
+  './assets/audio/music/victory.wav',
+  './assets/audio/sfx/countdown.wav',
+  './assets/audio/sfx/crowd.wav',
+  './assets/audio/sfx/door.wav',
+  './assets/audio/sfx/dragon.wav',
+  './assets/audio/sfx/footsteps.wav',
+  './assets/audio/sfx/magic.wav',
+  './assets/audio/sfx/mystery.wav',
+  './assets/audio/sfx/rain.wav',
+  './assets/audio/sfx/robot.wav',
+  './assets/audio/sfx/sparkle.wav',
+  './assets/audio/sfx/treasure.wav',
+  './assets/audio/sfx/victory.wav',
+  './assets/audio/sfx/whoosh.wav',
+  './assets/audio/sfx/wind.wav'
 ];
 
 self.addEventListener('install',event=>{

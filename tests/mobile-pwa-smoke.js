@@ -17,7 +17,7 @@ assert.equal(manifest.display,'standalone','Manifest is not configured for stand
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v7'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v9'"), 'Current versioned offline cache is missing');
 assert(worker.includes("request.mode==='navigate'"), 'Offline navigation fallback is missing');
 assert(mobile.includes("navigator.serviceWorker.register('./sw.js')"), 'Service worker registration is missing');
 assert(mobile.includes("'controllerchange'"), 'Installed phones do not refresh after an app-shell update');
@@ -39,7 +39,7 @@ assert(styles.includes('.mobile-menu-scrim'), 'Mobile drawer backdrop is missing
 assert(styles.includes('aspect-ratio:4/3!important'), 'Android movie screen sizing is not repaired');
 assert(styles.includes('.mobile-keyboard-open'), 'Android keyboard overlap handling is missing');
 assert(mobile.includes('window.visualViewport'), 'Android keyboard detection is missing');
-assert(app.includes('bindMobileTap(element,handler)'), 'Direct mobile pointer activation is missing');
+assert(app.includes("function bindMobileTap(element,handler){if(!element)return;element.onclick="), 'Player controls do not use reliable native Android clicks');
 assert(app.includes('bindIntentionalTap(element,handler)'), 'Scroll-safe mobile activation is missing');
 assert(app.includes('element.onpointercancel'), 'Cancelled Android touches are not ignored');
 assert(!app.includes('element.onpointerup=event=>'), 'Player still fires actions directly on Android pointer-up');
@@ -49,6 +49,10 @@ assert(player.includes('class="mobile-screen-play"'), 'Mobile movie play button 
 assert(player.includes("querySelectorAll('[data-player-action=\"toggle\"]')"), 'Mobile and standard play buttons do not stay synchronized');
 assert(player.includes('startMusic()'), 'Android-safe media startup is missing');
 assert(player.includes("this.music.preload='auto'"), 'Movie audio is not prepared before Android playback');
+assert(player.indexOf('this.playing=true;this.startMusic()')>=0, 'Music is not started at the beginning of the Android tap gesture');
+assert(player.includes("classList.remove('scene-running')"), 'Pausing does not pause the movie-screen animation');
+assert(styles.includes('.scene-running .movie-pdf-art'), 'Imported PNG/PDF scenes still look frozen during playback');
+assert(styles.includes('@keyframes artKenBurns'), 'Imported page motion animation is missing');
 assert(!/function render\(\).*save\(\)}/.test(app), 'Rendering still saves state without a user action');
 assert(/function autosave\(\).*if\(i>=0\)/.test(app), 'Draft autosave still creates unwanted movie-library entries');
 assert(app.includes("story:{mission:'',problem:'',sidekick:'',item:'',twist:'',ending:''}"), 'New stories still arrive with choices already selected');
@@ -58,6 +62,12 @@ assert(app.includes("function route(r){state.route=r;persistState(false)"), 'Nav
 
 for(const asset of ['./index.html','./manifest.webmanifest','./assets/story-spark-app-icon.svg','./js/mobileApp.js?v=1.4']){
   assert(worker.includes(`'${asset}'`), `Offline cache is missing ${asset}`);
+}
+for(const folder of ['assets/audio/music','assets/audio/sfx']){
+  for(const file of fs.readdirSync(folder).filter(name=>name.endsWith('.wav'))){
+    const asset=`./${folder}/${file}`;
+    assert(worker.includes(`'${asset}'`), `Offline cache is missing player audio: ${asset}`);
+  }
 }
 
 console.log('Mobile PWA smoke passed: Android/iPhone install paths, app icon, standalone launch, offline shell, safe areas, and touch sizing are connected.');
