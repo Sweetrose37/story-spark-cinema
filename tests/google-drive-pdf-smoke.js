@@ -34,9 +34,9 @@ assert(app.includes("classList.add('file-import-active')"), 'App updates can int
 assert(app.includes("'storyspark-import-finished'"), 'Deferred app refresh is not resumed after a Drive import');
 assert(styles.includes('@media(max-width:520px){.drive-link-row{grid-template-columns:1fr}'), 'Drive link controls do not stack on narrow phones');
 assert(styles.includes('.drive-native-card>.btn{display:block;width:100%'), 'Native Drive picker is not phone friendly');
-assert(html.includes('css/styles.css?v=5.6'), 'Drive link mobile styling is not cache-busted');
+assert(html.includes('css/styles.css?v=5.7'), 'Drive link mobile styling is not cache-busted');
 assert(html.includes('js/app-v2.js?v=5.13'), 'Drive link controller is not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v23'"), 'Installed phones will not receive Drive link imports');
+assert(worker.includes("const CACHE='story-spark-mobile-v24'"), 'Installed phones will not receive Drive link imports');
 
 const parserStart=app.indexOf('function googleDrivePdfReference(value)');
 const parserEnd=app.indexOf('\nfunction googleDriveDownloadUrl',parserStart);

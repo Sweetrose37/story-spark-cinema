@@ -42,9 +42,9 @@ assert(player.includes("if(this.playing){screen.classList.add('scene-running')")
 assert(!player.includes("requestAnimationFrame(()=>screen.classList.add('scene-running'))"), 'Android scene motion can still be delayed indefinitely');
 assert(player.includes("document.querySelector('#movieScreen')?.classList.remove('scene-running')"), 'Pause leaves visual motion running');
 assert(styles.includes('.scene-running .movie-pdf-art{animation:artKenBurns'), 'PNG and PDF artwork has no visible playback motion');
-assert(html.includes('js/moviePlayer.js?v=5.2'), 'Repaired player script is not cache-busted');
-assert(html.includes('css/styles.css?v=5.6'), 'Repaired player animation styles are not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v23'"), 'Installed Android app will not receive the repaired player');
+assert(html.includes('js/moviePlayer.js?v=5.3'), 'Repaired player script is not cache-busted');
+assert(html.includes('css/styles.css?v=5.7'), 'Repaired player animation styles are not cache-busted');
+assert(worker.includes("const CACHE='story-spark-mobile-v24'"), 'Installed Android app will not receive the repaired player');
 assert(html.includes('js/app-v2.js?v=5.13'), 'Quick-tap player controller is not cache-busted');
 
 for(const music of ['adventure','calm','comedy','emotional','epic','happy','magical','mystery','space','spooky-cute','victory']){

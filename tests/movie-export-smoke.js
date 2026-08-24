@@ -15,6 +15,8 @@ assert(exporter.includes("a.download=escFile(comp.title)+'.webm'"), 'WebM downlo
 assert(exporter.includes('musicTrack(comp)'), 'Local music is not connected to export');
 assert(exporter.includes('comp.scenes'), 'Timeline scenes are not rendered');
 assert(exporter.includes("scene.background?.image"), 'Imported story artwork is not rendered');
+assert(exporter.includes('coverScale=Math.max(WIDTH/img.width,HEIGHT/img.height)'), 'Export does not fill unused space behind differently sized pages');
+assert(exporter.includes('fitScale=Math.min(WIDTH/img.width,HEIGHT/img.height)'), 'Export can crop differently sized book pages');
 assert(exporter.includes('CANCEL EXPORT'), 'Export cancellation is missing');
 assert(exporter.includes('Keep this tab open'), 'Real-time export guidance is missing');
 assert(player.includes('data-export-movie'), 'Player export button is missing');

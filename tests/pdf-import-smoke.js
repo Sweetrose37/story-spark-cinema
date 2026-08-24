@@ -44,6 +44,7 @@ assert(app.includes("{type:'pdf',title:result.fileName}"), 'PDF source data is n
 assert(fs.readFileSync('js/movieComposer.js','utf8').includes('importPagesWithCover'), 'Imported books do not open on their actual cover artwork');
 assert(fs.readFileSync('js/timelineEditor.js','utf8').includes('preview-pdf-art'), 'PDF artwork is missing from the timeline preview');
 assert(fs.readFileSync('js/moviePlayer.js','utf8').includes('movie-pdf-art'), 'PDF artwork is missing from movie playback');
+assert(fs.readFileSync('js/timelineEditor.js','utf8').includes('book-page-backdrop'), 'Editor does not adapt differently sized book pages');
 assert(fs.readFileSync('js/timelineEditor.js','utf8').includes("art?'':`<div class=\"preview-stars\""), 'Editor decorations are not hidden over PDF artwork');
 assert(fs.readFileSync('js/moviePlayer.js','utf8').includes('caption&&!art'), 'Movie captions are not hidden over PDF artwork');
 
