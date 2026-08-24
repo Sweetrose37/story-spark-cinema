@@ -17,7 +17,7 @@ assert.equal(manifest.display,'standalone','Manifest is not configured for stand
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v17'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v18'"), 'Current versioned offline cache is missing');
 assert(app.includes('function save(showFeedback=false)'), 'Background changes still display Saved feedback');
 assert(app.includes('function saveComposition(comp,showFeedback=false)'), 'Composition updates still display Saved feedback');
 assert(app.includes('save(showFeedback);return comp'), 'Composition feedback is not controlled by the explicit save action');
