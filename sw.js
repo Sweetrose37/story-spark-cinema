@@ -1,9 +1,9 @@
-const CACHE='story-spark-mobile-v13';
+const CACHE='story-spark-mobile-v14';
 const CORE=[
   './',
   './index.html',
   './manifest.webmanifest',
-  './css/styles.css?v=5.3',
+  './css/styles.css?v=5.4',
   './assets/story-spark-app-icon.svg',
   './assets/star-code-hero.png',
   './js/idb.js',

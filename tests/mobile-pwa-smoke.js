@@ -17,7 +17,7 @@ assert.equal(manifest.display,'standalone','Manifest is not configured for stand
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v13'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v14'"), 'Current versioned offline cache is missing');
 assert(worker.includes("request.mode==='navigate'"), 'Offline navigation fallback is missing');
 assert(mobile.includes("navigator.serviceWorker.register('./sw.js')"), 'Service worker registration is missing');
 assert(mobile.includes("'controllerchange'"), 'Installed phones do not refresh after an app-shell update');
@@ -36,6 +36,8 @@ assert(styles.includes('.mobile-bottom-nav'), 'Phone navigation styling is missi
 assert(app.includes('applyMobileDrawerChrome()'), 'Mobile drawer close controls are missing');
 assert(app.includes('setMobileDrawer(open)'), 'Mobile drawer state management is missing');
 assert(styles.includes('.mobile-menu-scrim'), 'Mobile drawer backdrop is missing');
+assert(styles.includes('html[data-route="movies"] .library-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))'), 'My Movies toolbar still overflows phone width');
+assert(styles.includes('html[data-route="movies"] .library-toolbar .btn{width:100%;min-width:0'), 'My Movies toolbar buttons cannot shrink to phone width');
 assert(styles.includes('aspect-ratio:4/3!important'), 'Android movie screen sizing is not repaired');
 assert(styles.includes('.mobile-keyboard-open'), 'Android keyboard overlap handling is missing');
 assert(mobile.includes('window.visualViewport'), 'Android keyboard detection is missing');
