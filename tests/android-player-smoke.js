@@ -1,5 +1,6 @@
 const fs = require('fs');
 const assert = require('assert');
+const vm = require('vm');
 
 const app = fs.readFileSync('js/app-v2.js','utf8');
 const player = fs.readFileSync('js/moviePlayer.js','utf8');
@@ -10,7 +11,21 @@ const html = fs.readFileSync('index.html','utf8');
 const mobileTap = app.match(/function bindMobileTap\(element,handler\)\{[^\n]+/u)?.[0]||'';
 assert(mobileTap.includes('element.onclick='), 'Android player taps are not connected to native click');
 assert(!mobileTap.includes('moved'), 'Android player taps are still canceled by finger movement');
-assert(!mobileTap.includes('onpointermove'), 'Android player controls still use a fragile pointer movement filter');
+assert(mobileTap.includes('element.onpointerdown=direct'), 'Android playback does not begin directly on touch pointer-down');
+assert(mobileTap.includes('element.ontouchstart='), 'Android playback has no legacy touch-start fallback');
+assert(mobileTap.includes('event.preventDefault()'), 'Android compatibility click can fire after direct touch activation');
+
+const touchSandbox={window:{PointerEvent:function PointerEvent(){}},Date};
+vm.createContext(touchSandbox);vm.runInContext(`${mobileTap};this.bindMobileTap=bindMobileTap`,touchSandbox);
+let touchCount=0,prevented=false;const touchElement={disabled:false};
+touchSandbox.bindMobileTap(touchElement,()=>touchCount+=1);
+touchElement.onpointerdown({pointerType:'touch',preventDefault(){prevented=true}});
+touchElement.onclick({type:'click'});
+assert.equal(touchCount,1,'One Android tap fires the player more than once');
+assert(prevented,'Direct Android touch does not suppress the delayed compatibility click');
+let keyboardCount=0;const keyboardElement={disabled:false};
+touchSandbox.bindMobileTap(keyboardElement,()=>keyboardCount+=1);keyboardElement.onclick({type:'click'});
+assert.equal(keyboardCount,1,'Keyboard and accessibility clicks no longer activate the player');
 
 const playBody = player.match(/play\(\)\{[^\n]+/u)?.[0]||'';
 assert(playBody.indexOf('this.startMusic()')<playBody.indexOf('this.draw()'), 'Android music starts too late in the user gesture');
@@ -21,7 +36,8 @@ assert(player.includes("document.querySelector('#movieScreen')?.classList.remove
 assert(styles.includes('.scene-running .movie-pdf-art{animation:artKenBurns'), 'PNG and PDF artwork has no visible playback motion');
 assert(html.includes('js/moviePlayer.js?v=5.2'), 'Repaired player script is not cache-busted');
 assert(html.includes('css/styles.css?v=5.2'), 'Repaired player animation styles are not cache-busted');
-assert(worker.includes("const CACHE='story-spark-mobile-v9'"), 'Installed Android app will not receive the repaired player');
+assert(worker.includes("const CACHE='story-spark-mobile-v10'"), 'Installed Android app will not receive the repaired player');
+assert(html.includes('js/app-v2.js?v=5.3'), 'Direct-touch player controller is not cache-busted');
 
 for(const music of ['adventure','calm','comedy','emotional','epic','happy','magical','mystery','space','spooky-cute','victory']){
   assert(worker.includes(`'./assets/audio/music/${music}.wav'`), `${music} music is unavailable offline`);
