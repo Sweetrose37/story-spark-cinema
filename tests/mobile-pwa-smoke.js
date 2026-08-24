@@ -17,7 +17,13 @@ assert.equal(manifest.display,'standalone','Manifest is not configured for stand
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v14'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v15'"), 'Current versioned offline cache is missing');
+assert(app.includes('function save(showFeedback=false)'), 'Background changes still display Saved feedback');
+assert(app.includes('function saveComposition(comp,showFeedback=false)'), 'Composition updates still display Saved feedback');
+assert(app.includes('save(showFeedback);return comp'), 'Composition feedback is not controlled by the explicit save action');
+assert(!app.includes('mode selected'), 'Age selection still shows a bottom popup');
+assert(app.includes('if(!AGE[nextAge]||state.age===nextAge)return'), 'Selected age taps still repeat their action');
+assert(app.includes("saveComposition(comp,true);toast('Movie edits saved locally!')"), 'The explicit Save Edits action lost its save confirmation');
 assert(worker.includes("request.mode==='navigate'"), 'Offline navigation fallback is missing');
 assert(mobile.includes("navigator.serviceWorker.register('./sw.js')"), 'Service worker registration is missing');
 assert(mobile.includes("'controllerchange'"), 'Installed phones do not refresh after an app-shell update');
