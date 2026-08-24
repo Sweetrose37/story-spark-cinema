@@ -1,4 +1,4 @@
-const CACHE='story-spark-mobile-v15';
+const CACHE='story-spark-mobile-v16';
 const CORE=[
   './',
   './index.html',
@@ -12,9 +12,9 @@ const CORE=[
   './js/moviePlayer.js?v=5.2',
   './js/mobileMoviePlayer.js?v=1.0',
   './js/movieExporter.js?v=5.0',
-  './js/pdfStoryReader.js?v=4.4.0',
+  './js/pdfStoryReader.js?v=4.5.0',
   './js/mobileApp.js?v=1.4',
-  './js/app-v2.js?v=5.6',
+  './js/app-v2.js?v=5.7',
   './assets/audio/music/adventure.wav',
   './assets/audio/music/calm.wav',
   './assets/audio/music/comedy.wav',

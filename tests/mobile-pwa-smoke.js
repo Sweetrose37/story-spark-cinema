@@ -17,7 +17,7 @@ assert.equal(manifest.display,'standalone','Manifest is not configured for stand
 assert.equal(manifest.start_url,'./','Manifest start URL is incorrect');
 assert(manifest.icons.some(icon=>icon.purpose.includes('maskable')), 'Maskable Android app icon is missing');
 assert(fs.existsSync('assets/story-spark-app-icon.svg'), 'Mobile app icon is missing');
-assert(worker.includes("const CACHE='story-spark-mobile-v15'"), 'Current versioned offline cache is missing');
+assert(worker.includes("const CACHE='story-spark-mobile-v16'"), 'Current versioned offline cache is missing');
 assert(app.includes('function save(showFeedback=false)'), 'Background changes still display Saved feedback');
 assert(app.includes('function saveComposition(comp,showFeedback=false)'), 'Composition updates still display Saved feedback');
 assert(app.includes('save(showFeedback);return comp'), 'Composition feedback is not controlled by the explicit save action');
@@ -41,6 +41,9 @@ assert(app.includes('applyMobileNavigation()'), 'Phone bottom navigation is miss
 assert(styles.includes('.mobile-bottom-nav'), 'Phone navigation styling is missing');
 assert(app.includes('applyMobileDrawerChrome()'), 'Mobile drawer close controls are missing');
 assert(app.includes('setMobileDrawer(open)'), 'Mobile drawer state management is missing');
+assert(app.includes("if(!['menu','close-mobile-menu'].includes(b.dataset.action))"), 'More is still bound through two competing action paths');
+assert(app.includes('bindIntentionalTap(menu,()=>setMobileDrawer'), 'More does not use the scroll-safe mobile tap handler');
+assert(app.includes("menus=$$('[data-action=\"menu\"]')"), 'Both More controls do not share drawer state');
 assert(styles.includes('.mobile-menu-scrim'), 'Mobile drawer backdrop is missing');
 assert(styles.includes('html[data-route="movies"] .library-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))'), 'My Movies toolbar still overflows phone width');
 assert(styles.includes('html[data-route="movies"] .library-toolbar .btn{width:100%;min-width:0'), 'My Movies toolbar buttons cannot shrink to phone width');
